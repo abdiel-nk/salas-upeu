@@ -8,7 +8,102 @@
 #selectAll{
 	top:0
 }
+.wrapper textarea{
+	width: 100%;
+	resize: none;
+	height: 59px;
+	outline: none;
+	padding: 15px;
+	font-size: 16px;
+	margin-top: 20px;
+	border-radius: 5px;
+	max-height: 330px;
+	caret-color: #4671EA;
+	border: 1px solid #bfbfbf;
+	}
+	textarea::placeholder{
+	color: #b3b3b3;
+	}
+	textarea:is(:focus, :valid){
+	padding: 14px;
+	border: 2px solid #4671EA;
+	}
+	textarea::-webkit-scrollbar{
+	width: 0px;
+}
+/* style for modal*/
+
+:root{
+    --clr-black: #242424;
+    --clr-white: #f3f3f3;
+    --clr-red: #a83434;
+}
+body{
+	/* height: 100vh;
+	width: 100%; */
+}
+
+main{
+    min-width: 40vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    background-color: var(--clr-white);
+}
+.titulo{
+    font-size:3rem;
+}
+.botones{
+    display: flex;
+    gap: 1rem;
+}
+
+.boton{
+    border: 0;
+    background-color: var(--clr-black);
+    padding: .75em 1em;
+    border-radius: 500vmax;
+    cursor:pointer;
+    text-transform: uppercase;
+    font-weight: 800;;
+    font-size: .75rem;
+}
+.boton.cerrar{
+	background-color: var(--clr-red);
+	color:white;
+	
+}
+h2{
+	text-align: center;
+
+}
+.modal-centro{
+	position:absolute;
+	width: 500px;
+	height: 500px;
+	top:5%;
+	background-color: var(--clr-white);
+	color: var(--clr-black);
+	padding: 2rem;
+	border-radius:1rem;
+	display:flex;
+	flex-direction:column;
+	gap: 1rem;
+    right: 100%;
+	visibility: hidden;
+	opacity: 0;
+	transition: .3s;
+	z-index:1000;
+}
+.modal-centro.active{
+	opacity: 1;
+	visibility: visible;
+}
+
 </style>
+
 
 <div class="card card-outline card-primary">
 	<div class="card-header">
@@ -99,91 +194,186 @@
 								<label for="participantes" class="control-label">N° Alumnos:</label>
 								<input type="number" class="form-control" name="participantes" placeholder="Ingrese N° participantes" id="taller">
 							</div>
-							<div class="form-group">
-								<label for="schedule_remarks" class="control-label">Materiales:</label>
+								<main>
+									<!--Creando el modal de los materiales --> 
+									<div class="botones">
+										<button type="button" class="boton" id="boton-modal-centro">+</button>
+										
+									</div>
+									<!-- DIV 1 -->
+									<div class="modal-centro" id="modal-centro">
+										<div class="div-section">
+											<h4>1. Ingresar Item</h4>
+											<label for="inputValue">Elemento:</label>
+											<input type="text" id="inputValue">
+											<label for="selectOption">Opción:</label>
+											<select id="selectOption">
+												<option value="opcion1">Opción 1</option>
+												<option value="opcion2">Opción 2</option>
+												<option value="opcion3">Opción 3</option>
+											</select>
+											<button type="button" id="addButton">Añadir a la Tabla</button>
+										</div>
 
-								<div>
-									<label for="">N°</label>
-									<input type="text" class="" id="n-materiales">
-									<select name="" id="select-materiales" class="form-control">
-										<option value="Maniquie"> Maniquies </option>
-										<option value="Maniquie"> Guantes </option>
-										<option value="Maniquie"> Tubos endotraqueales </option>
-										<option value="Maniquie"> Jeringas </option>
-										<option value="Maniquie"> Gorras descartables </option>
+									
+										<!-- DIV 2: Tabla de Acumulación -->
+										<div class="div-section">
+											<h3>2. Items Acumulados</h3>
+											<table>
+												<thead>
+													<tr>
+														<th>Elemento</th>
+														<th>Opción Seleccionada</th>
+													</tr>
+												</thead>
+												<tbody id="dataTableBody">
+													<!-- Filas añadidas aquí -->
+												</tbody>
+											</table>
+										</div>
+										<button type="button" id="cerrar-modal-centro" class="boton cerrar">Cerrar</button>
+										<button type="button" id="saveAndCloseBtn" class="btn btn-primary">Guardar Datos</button>
 
-									</select>
-								</div>
-								<button id="addmateriales">+</button>
+									</div>
+
+								</main>
+
+
+									<!--Fin del modal -->
+
+							<!-- <button type="button" id="addmateriales" onkeydown="pulsar(event)">Añadir o mostrar Modal</button> -->
 								
 
-								<textarea onkeydown="pulsar(event)" maxlength="500" rows="5" placeholder="Ingrese materiales para taller."  class="form-control" name="schedule_remarks" id="schedule_remarks" readonly id="list-materiales"></textarea>
+								<!-- <textarea onkeydown="pulsar(event)" maxlength="500" rows="5" class="form-control" name="schedule_remarks" id="schedule_remarks" readonly id="list-materiales"></textarea> -->
+    							<textarea id="schedule_remarks" rows="10" cols="50" name="schedule_remarks" readonly placeholder="Los datos de la tabla aparecerán aquí al cerrar el modal..."></textarea>
 
 								
 							</div>
 
+
 <script>
-	
-	const selectElement = document.getElementById('select-materiales');
-	const listaMateriales= document.getElementById('list-materiales');
-	const buttonMateriales = document.getElementById('addmateriales');
 
-	buttonMateriales.addEventListener('click',()=>{
-		const selectedOptions = Array.from(selectEle).map(option => option.value);
+	const botonModalCentro= document.querySelector("#boton-modal-centro");
+	const modalCentro= document.querySelector("#modal-centro");
+	const modalCerrar= document.querySelector("#cerrar-modal-centro");
 
-		if(selectedOptions.length > 0){
-			listaMateriales.value = selectedOptions.join(', ');
-		}
-		else{
-			SelectElement.value = '';
-		}
+
+	botonModalCentro.addEventListener("click", ()=>{
+		modalCentro.classList.add("active");
+	})
+
+	modalCerrar.addEventListener("click", ()=>{
+		modalCentro.classList.remove("active");
 	})
 
 
+	const closeModalBtn = document.getElementsByClassName("close")[0]; // Solo necesitamos el primero
+	const saveAndCloseBtn = document.getElementById("saveAndCloseBtn");
+	const addButton = document.getElementById("addButton");
+	const inputValue = document.getElementById("inputValue");
+	const selectOption = document.getElementById("selectOption");
+	const dataTableBody = document.getElementById("dataTableBody");
+	const outputDataTextarea = document.getElementById("schedule_remarks");
+
+// --- Lógica del Modal ---
 
 
-	const textarea = document.querySelector("textarea");
-	textarea.addEventListener("keyup", e =>{
-		textarea.style.height = "63px";
-		let scHeight = e.target.scrollHeight;
-		textarea.style.height = `${scHeight}px`;
-	});
 
-	function pulsar(e) {
-	if (e.which === 13 && !e.shiftKey) {
-		e.preventDefault();
-		console.log('prevented');
-	return false;
-	}
+
+window.onclick = function(event) {
+    if (event.target == modal) {
+        updateTextareaFromTable(); // Actualizar al hacer clic fuera
+        modal.style.display = "none";
+    }
 }
+
+saveAndCloseBtn.onclick = function() {
+    updateTextareaFromTable();
+    modal.style.display = "none";
+}
+
+// --- Lógica de Añadir a la Tabla ---
+addButton.onclick = function() {
+    const itemValue = inputValue.value.trim(); // Usar trim() para limpiar espacios
+    const optionText = selectOption.options[selectOption.selectedIndex].text;
+    const optionValue = selectOption.value; // Puedes guardar el valor o el texto
+
+    if (itemValue === "") {
+        alert("Por favor, introduce un valor para el elemento.");
+        return;
+    }
+
+    // Crear una nueva fila y celdas
+    const newRow = dataTableBody.insertRow();
+    const cell1 = newRow.insertCell(0);
+    const cell2 = newRow.insertCell(1);
+
+    cell1.textContent = itemValue;
+    cell2.textContent = optionText;
+    
+    // Opcional: añadir un atributo de datos con el valor real del select
+    newRow.setAttribute('data-option-value', optionValue);
+
+    // Limpiar el formulario
+    inputValue.value = "";
+    selectOption.selectedIndex = 0; 
+};
+
+// --- Lógica de Transferencia a Textarea ---
+function updateTextareaFromTable() {
+    const rows = dataTableBody.querySelectorAll("tr");
+    const dataArray = [];
+
+    rows.forEach(row => {
+        const cells = row.querySelectorAll("td");
+        if (cells.length === 2) {
+            dataArray.push({
+                elemento: cells[0].textContent,
+                opcion: cells[1].textContent, // O row.getAttribute('data-option-value')
+            });
+        }
+    });
+
+    // Convertir el array de objetos a una cadena JSON formateada
+    // JSON.stringify(dataArray, null, 2) hace que el JSON sea legible
+    outputDataTextarea.value = JSON.stringify(dataArray, /[\n\s]/g ,null);
+	outputDataTextarea.value;
+	// let textoSinSaltosYEspacios = outputDataTextarea.value.replace(/[\n\s]/g, '');
+	// textoSinSaltosYEspacios.value = outputDataTextarea;
+}
+
+	
+
+
+
+
+
+
+
+
+
+
+	
+	
+	
+
+
+
+	// const textarea = document.querySelector("textarea");
+	// textarea.addEventListener("keyup", e =>{
+	// 	textarea.style.height = "63px";
+	// 	let scHeight = e.target.scrollHeight;
+	// 	textarea.style.height = `${scHeight}px`;
+	// });
+
+	// function pulsar(e) {
+	// if (e.which === 13 && !e.shiftKey) {
+	// 	e.preventDefault();
+	// 	console.log('prevented');
+	// return false;
+	// }
+
 </script>
-
-<style type="text/css">
-.wrapper textarea{
-	width: 100%;
-	resize: none;
-	height: 59px;
-	outline: none;
-	padding: 15px;
-	font-size: 16px;
-	margin-top: 20px;
-	border-radius: 5px;
-	max-height: 330px;
-	caret-color: #4671EA;
-	border: 1px solid #bfbfbf;
-	}
-	textarea::placeholder{
-	color: #b3b3b3;
-	}
-	textarea:is(:focus, :valid){
-	padding: 14px;
-	border: 2px solid #4671EA;
-	}
-	textarea::-webkit-scrollbar{
-	width: 0px;
-}
-    </style>
-
 
 	<div class="form-group">
 		<label for="taller" class="control-label">Almuerzo/Pasaje:</label>
@@ -193,8 +383,8 @@
 		<label for="soporte" class="control-label">TI Soporte:</label>
 		<select name="soporte" id="" class="form-control form no-resize">
 			<option disabled selected>Selecciona una opción</option>
-			<option value="Ing. Maicol Ayala Poma P/A: S/54.00" <?php echo isset($soporte) && $soporte == 1 ? "selected" : "" ?>>Ing. Willy Medina Bacalla P/A: S/54.00</option>
-			<option value="Ing. Willy Medinia Bacalla P/A: S/54.00" <?php echo isset($soporte) && $soporte == 2 ? "selected" : "" ?>>Ing. Abdiel Mamani Simeon P/A: S/54.00</option>
+			<option value="Ing. Willy Medina Bacalla P/A: S/54.00" <?php echo isset($soporte) && $soporte == 1 ? "selected" : "" ?>>Ing. Willy Medina Bacalla P/A: S/54.00</option>
+			<option value="Ing. Abdiel Mamani Simeon P/A: S/54.00" <?php echo isset($soporte) && $soporte == 2 ? "selected" : "" ?>>Ing. Abdiel Mamani Simeon P/A: S/54.00</option>
 		</select>
 	</div>
 		<div class="form-group">
