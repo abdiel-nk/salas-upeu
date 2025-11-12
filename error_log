@@ -1,0 +1,36 @@
+[17-May-2024 22:41:43 Asia/Manila] PHP Fatal error:  Uncaught mysqli_sql_exception: Access denied for user 'root'@'localhost' (using password: NO) in /home3/raiusr/public_html/demo-simulador/classes/DBConnection.php:18
+Stack trace:
+#0 /home3/raiusr/public_html/demo-simulador/classes/DBConnection.php(18): mysqli->__construct('localhost', 'root', '', 'programacion_sa...')
+#1 /home3/raiusr/public_html/demo-simulador/classes/SystemSettings.php(8): DBConnection->__construct()
+#2 /home3/raiusr/public_html/demo-simulador/classes/SystemSettings.php(136): SystemSettings->__construct()
+#3 /home3/raiusr/public_html/demo-simulador/config.php(9): require_once('/home3/raiusr/p...')
+#4 /home3/raiusr/public_html/demo-simulador/index.php(1): require_once('/home3/raiusr/p...')
+#5 {main}
+  thrown in /home3/raiusr/public_html/demo-simulador/classes/DBConnection.php on line 18
+[17-May-2024 22:44:23 Asia/Manila] PHP Fatal error:  Uncaught mysqli_sql_exception: Access denied for user 'root'@'localhost' (using password: NO) in /home3/raiusr/public_html/demo-simulador/classes/DBConnection.php:18
+Stack trace:
+#0 /home3/raiusr/public_html/demo-simulador/classes/DBConnection.php(18): mysqli->__construct('localhost', 'root', '', 'programacion_sa...')
+#1 /home3/raiusr/public_html/demo-simulador/classes/SystemSettings.php(8): DBConnection->__construct()
+#2 /home3/raiusr/public_html/demo-simulador/classes/SystemSettings.php(136): SystemSettings->__construct()
+#3 /home3/raiusr/public_html/demo-simulador/config.php(9): require_once('/home3/raiusr/p...')
+#4 /home3/raiusr/public_html/demo-simulador/index.php(1): require_once('/home3/raiusr/p...')
+#5 {main}
+  thrown in /home3/raiusr/public_html/demo-simulador/classes/DBConnection.php on line 18
+[17-May-2024 22:44:50 Asia/Manila] PHP Fatal error:  Uncaught mysqli_sql_exception: Access denied for user 'root'@'localhost' (using password: NO) in /home3/raiusr/public_html/demo-simulador/classes/DBConnection.php:18
+Stack trace:
+#0 /home3/raiusr/public_html/demo-simulador/classes/DBConnection.php(18): mysqli->__construct('localhost', 'root', '', 'programacion_sa...')
+#1 /home3/raiusr/public_html/demo-simulador/classes/SystemSettings.php(8): DBConnection->__construct()
+#2 /home3/raiusr/public_html/demo-simulador/classes/SystemSettings.php(136): SystemSettings->__construct()
+#3 /home3/raiusr/public_html/demo-simulador/config.php(9): require_once('/home3/raiusr/p...')
+#4 /home3/raiusr/public_html/demo-simulador/index.php(1): require_once('/home3/raiusr/p...')
+#5 {main}
+  thrown in /home3/raiusr/public_html/demo-simulador/classes/DBConnection.php on line 18
+[17-May-2024 22:44:54 Asia/Manila] PHP Fatal error:  Uncaught mysqli_sql_exception: Access denied for user 'root'@'localhost' (using password: NO) in /home3/raiusr/public_html/demo-simulador/classes/DBConnection.php:18
+Stack trace:
+#0 /home3/raiusr/public_html/demo-simulador/classes/DBConnection.php(18): mysqli->__construct('localhost', 'root', '', 'programacion_sa...')
+#1 /home3/raiusr/public_html/demo-simulador/classes/SystemSettings.php(8): DBConnection->__construct()
+#2 /home3/raiusr/public_html/demo-simulador/classes/SystemSettings.php(136): SystemSettings->__construct()
+#3 /home3/raiusr/public_html/demo-simulador/config.php(9): require_once('/home3/raiusr/p...')
+#4 /home3/raiusr/public_html/demo-simulador/index.php(1): require_once('/home3/raiusr/p...')
+#5 {main}
+  thrown in /home3/raiusr/public_html/demo-simulador/classes/DBConnection.php on line 18
